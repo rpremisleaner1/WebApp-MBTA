@@ -62,10 +62,10 @@ def get_lat_long(place_name):
 # print(type(lat_long_object))
 
 
-lat_value = str(get_lat_long('60 Devonshire St Boston MA')[0])
-long_value = str(get_lat_long('60 Devonshire St Boston MA')[1])
+# lat_value = str(get_lat_long('60 Devonshire St Boston MA')[0])
+# long_value = str(get_lat_long('60 Devonshire St Boston MA')[1])
 
-print(lat_value, long_value)
+# print(lat_value, long_value)
 
 # new_url = f"https://api-v3.mbta.com/stops?api_key={MBTA_API_KEY}&sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
 # new_json = get_json(new_url)
@@ -90,13 +90,20 @@ def get_nearest_station(latitude, longitude):
     access_name = access["attributes"]['name']
     access_wheelchair = access['attributes']['wheelchair_boarding']
 
+    if access_wheelchair == 2:
+        access_wheelchair = 'This station is not accessible to individuals on wheelchairs'
+    elif access_wheelchair == 1:
+        access_wheelchair = 'This station is accessible to individuals on wheelchairs'
+    else:
+        access_wheelchair = 'There is no conclusive information regarding whether or not this station is accessible to individuals on wheelchairs'
+
     return access_name, access_wheelchair
 
 
 ### Test Code ###
 
-print(get_nearest_station(lat_value, long_value))
-print(type(get_nearest_station(lat_value, long_value)))
+# print(get_nearest_station(lat_value, long_value))
+# print(type(get_nearest_station(lat_value, long_value)))
 
 
 def find_stop_near(place_name):
@@ -105,25 +112,36 @@ def find_stop_near(place_name):
 
     This function might use all the functions above.
     """
-    pass
+    get_lat_long(place_name)
+    lat_value = str(get_lat_long(place_name)[0])
+    long_value = str(get_lat_long(place_name)[1])
+
+    final_values = get_nearest_station(lat_value, long_value)
+
+    return final_values
+
+# print(find_stop_near('60 Devonshire St Boston MA'))
+
+def main():
+    """
+    You can test all the functions here
+    """
+    # place_name = input(
+    #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
+    user_input = '60 Devonshire St Boston MA'
+    # lat_long = get_lat_long(user_input)
+    # pprint(lat_long)
 
 
-# def main():
-#     """
-#     You can test all the functions here
-#     """
-#     # place_name = input(
-#     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
-#     user_input = '60 Devonshire St Boston MA'
-#     # print(clean_input(place_name))
-#     lat_long = get_lat_long(user_input)
-#     # pprint(lat_long)
-#     latitude_value = get_lat(lat_long)
-#     longitude_value = get_long(lat_long)
-#     # print(latitude_value)
-#     # print(longitude_value)
-#     print(get_nearest_station(latitude_value, longitude_value))
+    # latitude_value = str(get_lat_long(user_input)[0])
+    # longitude_value = str(get_lat_long(user_input)[1])
 
 
-# if __name__ == '__main__':
-#     main()
+    # print(latitude_value)
+    # print(longitude_value)
+    # print(get_nearest_station(latitude_value, longitude_value))
+    print(find_stop_near(user_input))
+
+
+if __name__ == '__main__':
+    main()
