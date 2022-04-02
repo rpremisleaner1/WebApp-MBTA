@@ -49,17 +49,17 @@ There are three main steps to using any web API:
 ### 2. Structured data responses (JSON)
 Back? Ok cool, let's try it out in Python. We're going to request the response in JSON format, which we can decode using Python's [`json` module](https://docs.python.org/3.10/library/json.html).
 ```python
-import urllib.request
-import json
-from pprint import pprint
+    import urllib.request
+    import json
+    from pprint import pprint
 
-MAPQUEST_API_KEY = 'YOUR API KEY'
+    MAPQUEST_API_KEY = 'YOUR API KEY'
 
-url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location=Babson%20College'
-f = urllib.request.urlopen(url)
-response_text = f.read().decode('utf-8')
-response_data = json.loads(response_text)
-pprint(response_data)
+    url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location=Babson%20College'
+    f = urllib.request.urlopen(url)
+    response_text = f.read().decode('utf-8')
+    response_data = json.loads(response_text)
+    pprint(response_data)
 ```
 
 We used the [`pprint` module](https://docs.python.org/3/library/pprint.html) to "pretty print" the response data structure with indentation, so it's easier to visualize. You should see something similar to the JSON response from the documentation, except built from Python data types. This response data structure is built from nested dictionaries and lists, and you can step through it to access the fields you want.

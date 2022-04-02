@@ -29,6 +29,12 @@ def get_json(url):
     response_data = json.loads(response_text)
     return response_data
 
+### Test Code ###
+
+# url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location=Babson%20College'
+# json_object = get_json(url)
+# print(json_object['results'][0]['locations'][0]['latLng'])
+
 
 def get_lat_long(place_name):
     """
@@ -39,30 +45,31 @@ def get_lat_long(place_name):
     """
 
     # url = f'http://www.mapquestapi.com/geocoding/v1/address?{key1}&{key2}'
+    place_name = str(place_name)  # just in case
     construct_url = place_name.replace(" ", "%20")
     # construct_url = clean_input(place_name)
 
     url = f'http://www.mapquestapi.com/geocoding/v1/address?key={MAPQUEST_API_KEY}&location={construct_url}'
 
     lat_long = get_json(url)
-    # return lat_long
+    lat_long_dict = lat_long['results'][0]['locations'][0]['latLng']
 
-    return lat_long['results'][0]['locations'][0]['latLng']
+    return lat_long_dict.get('lat', 0), lat_long_dict.get('lng', 0)
 
+### Test code ###
 
-def clean_input(place_name):
-
-    pass
-
-
-def get_lat(lat_long):
-    lat = lat_long.get("lat")
-    return lat
+# lat_long_object = get_lat_long('60 Devonshire St Boston MA')
+# print(type(lat_long_object))
 
 
-def get_long(lat_long):
-    long = lat_long.get("lng")
-    return long
+lat_value = str(get_lat_long('60 Devonshire St Boston MA')[0])
+long_value = str(get_lat_long('60 Devonshire St Boston MA')[1])
+
+print(lat_value, long_value)
+
+# new_url = f"https://api-v3.mbta.com/stops?api_key={MBTA_API_KEY}&sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
+# new_json = get_json(new_url)
+# print(new_json)
 
 
 def get_nearest_station(latitude, longitude):
@@ -76,16 +83,20 @@ def get_nearest_station(latitude, longitude):
     long_value = str(longitude)
     # return lat_value, long_value
 
-    url = f"https://api-v3.mbta.com/stops?sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
-    # url = f"https://api-v3.mbta.com/stops?sort=distance&filter%5Blatitude%5D=42.358191&filter%5Blongitude%5D=-71.057294"
-    # url = f'https://api-v3.mbta.com/stops?{MBTA_API_KEY}filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}'
-    # return url 
+    url = f"https://api-v3.mbta.com/stops?api_key={MBTA_API_KEY}&sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
+
     nearest_station = get_json(url)
     access = nearest_station['data'][0]
     access_name = access["attributes"]['name']
     access_wheelchair = access['attributes']['wheelchair_boarding']
 
     return access_name, access_wheelchair
+
+
+### Test Code ###
+
+print(get_nearest_station(lat_value, long_value))
+print(type(get_nearest_station(lat_value, long_value)))
 
 
 def find_stop_near(place_name):
@@ -97,22 +108,22 @@ def find_stop_near(place_name):
     pass
 
 
-def main():
-    """
-    You can test all the functions here
-    """
-    # place_name = input(
-    #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
-    user_input = '60 Devonshire St Boston MA'
-    # print(clean_input(place_name))
-    lat_long = get_lat_long(user_input)
-    # pprint(lat_long)
-    latitude_value = get_lat(lat_long)
-    longitude_value = get_long(lat_long)
-    # print(latitude_value)
-    # print(longitude_value)
-    print(get_nearest_station(latitude_value, longitude_value))
+# def main():
+#     """
+#     You can test all the functions here
+#     """
+#     # place_name = input(
+#     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
+#     user_input = '60 Devonshire St Boston MA'
+#     # print(clean_input(place_name))
+#     lat_long = get_lat_long(user_input)
+#     # pprint(lat_long)
+#     latitude_value = get_lat(lat_long)
+#     longitude_value = get_long(lat_long)
+#     # print(latitude_value)
+#     # print(longitude_value)
+#     print(get_nearest_station(latitude_value, longitude_value))
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
