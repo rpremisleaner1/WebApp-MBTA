@@ -94,7 +94,13 @@ def find_stop_near(place_name):
 
     This function might use all the functions above.
     """
-    pass
+    user_input = place_name 
+    lat_long = get_lat_long(user_input)
+    latitude_value = get_lat(lat_long)
+    longitude_value = get_long(lat_long)
+    nearest_station = get_nearest_station(latitude_value, longitude_value)
+
+    return nearest_station
 
 
 def main():
@@ -103,15 +109,19 @@ def main():
     """
     # place_name = input(
     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
-    user_input = '60 Devonshire St Boston MA'
+    # user_input = '60 Devonshire St Boston MA'
+    user_input = '99 Myrtle St Boston MA 02114'
     # print(clean_input(place_name))
-    lat_long = get_lat_long(user_input)
+    # lat_long = get_lat_long(user_input)
     # pprint(lat_long)
-    latitude_value = get_lat(lat_long)
-    longitude_value = get_long(lat_long)
+    # latitude_value = get_lat(lat_long)
+    # longitude_value = get_long(lat_long)
     # print(latitude_value)
     # print(longitude_value)
-    print(get_nearest_station(latitude_value, longitude_value))
+    # print(get_nearest_station(latitude_value, longitude_value))
+    near_stop = find_stop_near(user_input)
+    print(f'Nearest Station: {near_stop[0]}. \nWheelchair Accessibility: {near_stop[1]}')
+
 
 
 if __name__ == '__main__':
