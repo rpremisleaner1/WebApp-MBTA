@@ -92,6 +92,7 @@ def get_nearest_station(latitude, longitude, vehicle_wanted=None):
     access_name = access["attributes"]['name']
     access_wheelchair = access['attributes']['wheelchair_boarding']
     vehicle_available = access['attributes']['vehicle_type']
+    vehicle_wanted = vehicle_wanted.lower()
     t = [0, 1, 2]
     bus = 3
     ferry = 4
@@ -109,10 +110,10 @@ def get_nearest_station(latitude, longitude, vehicle_wanted=None):
         access_wheelchair = 'This station is accessible to individuals on wheelchairs'
     else:
         access_wheelchair = 'There is no conclusive information regarding whether or not this station is accessible to individuals on wheelchairs'
-    if vehicle_wanted == 'T' and vehicle_available in t:
+    if vehicle_wanted == 't' and vehicle_available in t:
         vehicle_wanted = 'T is available on this station.'
         return access_name, access_wheelchair, vehicle_wanted
-    if vehicle_wanted == 'T' and vehicle_available not in t:
+    if vehicle_wanted == 't' and vehicle_available not in t:
         vehicle_wanted = f'T is not available on this station. {renamed_vehicle} are.'
         return access_name, access_wheelchair, vehicle_wanted
     elif vehicle_wanted == 'bus' and vehicle_available in bus:
@@ -175,7 +176,7 @@ def main():
 #     # print(latitude_value)
 #     # print(longitude_value)
 #     # print(get_nearest_station(latitude_value, longitude_value))
-    print(find_stop_near(user_input, vehicle_wanted='T'))
+    print(find_stop_near(user_input, vehicle_wanted='t'))
 
 
 if __name__ == '__main__':
