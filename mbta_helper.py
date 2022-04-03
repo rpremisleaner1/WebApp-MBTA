@@ -75,7 +75,9 @@ def get_lat_long(place_name):
 def get_nearest_station(latitude, longitude, vehicle_wanted = None):
     """
     Given latitude and longitude strings, return a (station_name, wheelchair_accessible)
-    tuple for the nearest MBTA station to the given coordinates.
+    tuple for the nearest MBTA station to the given coordinates. Additionally, the user may specify their desire mode of transportation.
+    If their desired mode of transportation is available, the function returns a (station_name, wheelchair_accessible, vehicle_wanted) tuple,
+    where vehicle_wanted returns information about the user's desired mode of transporation.
     See https://api-v3.mbta.com/docs/swagger/index.html#/Stop/ApiWeb_StopController_index for URL
     formatting requirements for the 'GET /stops' API.
     """
