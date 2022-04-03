@@ -62,17 +62,17 @@ def get_lat_long(place_name):
 # print(type(lat_long_object))
 
 
-# lat_value = str(get_lat_long('60 Devonshire St Boston MA')[0])
-# long_value = str(get_lat_long('60 Devonshire St Boston MA')[1])
+lat_value = str(get_lat_long('60 Devonshire St Boston MA')[0])
+long_value = str(get_lat_long('60 Devonshire St Boston MA')[1]) 
 
 # print(lat_value, long_value)
 
-# new_url = f"https://api-v3.mbta.com/stops?api_key={MBTA_API_KEY}&sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
-# new_json = get_json(new_url)
+new_url = f"https://api-v3.mbta.com/stops?api_key={MBTA_API_KEY}&sort=distance&filter%5Blatitude%5D={lat_value}&filter%5Blongitude%5D={long_value}"
+new_json = get_json(new_url)
 # print(new_json)
 
 
-def get_nearest_station(latitude, longitude):
+def get_nearest_station(latitude, longitude, vehicle_wanted = None):
     """
     Given latitude and longitude strings, return a (station_name, wheelchair_accessible)
     tuple for the nearest MBTA station to the given coordinates.
@@ -89,15 +89,45 @@ def get_nearest_station(latitude, longitude):
     access = nearest_station['data'][0]
     access_name = access["attributes"]['name']
     access_wheelchair = access['attributes']['wheelchair_boarding']
-
+    vehicle_available = access['attributes']['vehicle_type']
+    t = [0, 1, 2]
+    bus = 3
+    ferry = 4
+    if vehicle_available in t:
+        renamed_vehicle = 'T'
+    elif vehicle_available == bus:
+        renamed_vehicle = 'Buses'
+    elif vehicle_available == ferry:
+        renamed_vehicle = 'Ferries'
+    else:
+        renamed_vehicle = 'No information regarding vehicles'
     if access_wheelchair == 2:
         access_wheelchair = 'This station is not accessible to individuals on wheelchairs'
     elif access_wheelchair == 1:
         access_wheelchair = 'This station is accessible to individuals on wheelchairs'
     else:
         access_wheelchair = 'There is no conclusive information regarding whether or not this station is accessible to individuals on wheelchairs'
-
-    return access_name, access_wheelchair
+    if vehicle_wanted == 'T' and vehicle_available in t:
+        vehicle_wanted = 'T is available on this station.'
+        return access_name, access_wheelchair, vehicle_wanted
+    if vehicle_wanted == 'T' and vehicle_available not in t:
+        vehicle_wanted = f'T is not available on this station. {renamed_vehicle} are.'
+        return access_name, access_wheelchair, vehicle_wanted   
+    elif vehicle_wanted == 'bus' and vehicle_available in bus:
+        vehicle_wanted = 'Buses are available on this station.'
+        return access_name, access_wheelchair, vehicle_wanted
+    elif vehicle_wanted == 'bus' and vehicle_available not in bus:
+        vehicle_wanted = f'Buses are not available on this station. {renamed_vehicle} are.'
+        return access_name, access_wheelchair, vehicle_wanted
+    elif vehicle_wanted == 'ferry' and vehicle_available in ferry:
+        vehicle_wanted = 'Ferries are available on this station.'
+        return access_name, access_wheelchair, vehicle_wanted
+    elif vehicle_wanted == 'ferry' and vehicle_available not in ferry:
+        vehicle_wanted = f'Ferries are not available on this station. {renamed_vehicle} are.'
+        return access_name, access_wheelchair, vehicle_wanted
+    else:
+        vehicle_wanted = 'No mode of transportation was specified.'
+        return access_name, access_wheelchair, vehicle_wanted
 
 
 ### Test Code ###
@@ -106,7 +136,8 @@ def get_nearest_station(latitude, longitude):
 # print(type(get_nearest_station(lat_value, long_value)))
 
 
-def find_stop_near(place_name):
+
+def find_stop_near(place_name, vehicle_wanted = None):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
 
@@ -115,32 +146,33 @@ def find_stop_near(place_name):
     get_lat_long(place_name)
     lat_value = str(get_lat_long(place_name)[0])
     long_value = str(get_lat_long(place_name)[1])
+    vehicle_wanted = vehicle_wanted
 
-    final_values = get_nearest_station(lat_value, long_value)
+    final_values = get_nearest_station(lat_value, long_value, vehicle_wanted = None)
 
     return final_values
 
 # print(find_stop_near('60 Devonshire St Boston MA'))
 
 def main():
-    """
-    You can test all the functions here
-    """
-    # place_name = input(
-    #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
+#     """
+#     You can test all the functions here
+#     """
+#     # place_name = input(
+#     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
     user_input = '60 Devonshire St Boston MA'
-    # lat_long = get_lat_long(user_input)
-    # pprint(lat_long)
+#     # lat_long = get_lat_long(user_input)
+#     # pprint(lat_long)
 
 
-    # latitude_value = str(get_lat_long(user_input)[0])
-    # longitude_value = str(get_lat_long(user_input)[1])
+#     # latitude_value = str(get_lat_long(user_input)[0])
+#     # longitude_value = str(get_lat_long(user_input)[1])
 
 
-    # print(latitude_value)
-    # print(longitude_value)
-    # print(get_nearest_station(latitude_value, longitude_value))
-    print(find_stop_near(user_input))
+#     # print(latitude_value)
+#     # print(longitude_value)
+#     # print(get_nearest_station(latitude_value, longitude_value))
+    print(find_stop_near(user_input, vehicle_wanted = 'T'))
 
 
 if __name__ == '__main__':
