@@ -132,7 +132,7 @@ def get_nearest_station(latitude, longitude, vehicle_wanted = None):
 
 ### Test Code ###
 
-# print(get_nearest_station(lat_value, long_value))
+# print(get_nearest_station(lat_value, long_value, 'T'))
 # print(type(get_nearest_station(lat_value, long_value)))
 
 
@@ -146,13 +146,14 @@ def find_stop_near(place_name, vehicle_wanted = None):
     get_lat_long(place_name)
     lat_value = str(get_lat_long(place_name)[0])
     long_value = str(get_lat_long(place_name)[1])
-    vehicle_wanted = vehicle_wanted
+    vehicle_wanted = str(vehicle_wanted)
 
-    final_values = get_nearest_station(lat_value, long_value, vehicle_wanted = None)
+    final_values = get_nearest_station(lat_value, long_value, vehicle_wanted)
 
     return final_values
 
-# print(find_stop_near('60 Devonshire St Boston MA'))
+# place_name = '60 Devonshire St Boston MA'
+# print(find_stop_near(place_name, 'T'))
 
 def main():
 #     """
