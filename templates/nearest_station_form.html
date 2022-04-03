@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nearest Station</title>
+  </head>
+  <body>
+    <h1>Hello and Welcome</h1>
+    <form method="POST" name="nearest_station">
+      {% if error %}
+      <p style="color: red">
+        We can't find the nearest Station based on your entry.
+      </p>
+      {% endif %}
+      <p>What's your current location?</p>
+      <p>
+        <input type="text" name="place_name"/>
+        <p>
+            <input type="submit" value="Find Nearest Station" />
+          </p>
+      </p>
+    </form>
+  </body>
+</html>
