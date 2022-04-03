@@ -72,7 +72,7 @@ def get_lat_long(place_name):
 # print(new_json)
 
 
-def get_nearest_station(latitude, longitude, vehicle_wanted = None):
+def get_nearest_station(latitude, longitude, vehicle_wanted=None):
     """
     Given latitude and longitude strings, return a (station_name, wheelchair_accessible)
     tuple for the nearest MBTA station to the given coordinates. Additionally, the user may specify their desire mode of transportation.
@@ -114,7 +114,7 @@ def get_nearest_station(latitude, longitude, vehicle_wanted = None):
         return access_name, access_wheelchair, vehicle_wanted
     if vehicle_wanted == 'T' and vehicle_available not in t:
         vehicle_wanted = f'T is not available on this station. {renamed_vehicle} are.'
-        return access_name, access_wheelchair, vehicle_wanted   
+        return access_name, access_wheelchair, vehicle_wanted
     elif vehicle_wanted == 'bus' and vehicle_available in bus:
         vehicle_wanted = 'Buses are available on this station.'
         return access_name, access_wheelchair, vehicle_wanted
@@ -138,8 +138,7 @@ def get_nearest_station(latitude, longitude, vehicle_wanted = None):
 # print(type(get_nearest_station(lat_value, long_value)))
 
 
-
-def find_stop_near(place_name, vehicle_wanted = None):
+def find_stop_near(place_name, vehicle_wanted=None):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
 
@@ -157,12 +156,13 @@ def find_stop_near(place_name, vehicle_wanted = None):
 # place_name = '60 Devonshire St Boston MA'
 # print(find_stop_near(place_name, 'T'))
 
+
 def main():
-#     """
-#     You can test all the functions here
-#     """
-#     # place_name = input(
-#     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
+    #     """
+    #     You can test all the functions here
+    #     """
+    #     # place_name = input(
+    #     #     "Please enter your input just with whitespace and without ','\nWhere are you right now? ")
     user_input = '60 Devonshire St Boston MA'
 #     # lat_long = get_lat_long(user_input)
 #     # pprint(lat_long)
@@ -175,7 +175,7 @@ def main():
 #     # print(latitude_value)
 #     # print(longitude_value)
 #     # print(get_nearest_station(latitude_value, longitude_value))
-    print(find_stop_near(user_input, vehicle_wanted = 'T'))
+    print(find_stop_near(user_input, vehicle_wanted='T'))
 
 
 if __name__ == '__main__':
