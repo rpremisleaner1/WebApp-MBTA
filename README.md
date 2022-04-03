@@ -9,5 +9,6 @@ In order for the functions to work properly, we assumed that the user knows and 
 
 ## 2. Project Reflection
 
-    i. 
-    ii. 
+* i. This is paragraph one 
+
+* ii. This is paragraph two 
